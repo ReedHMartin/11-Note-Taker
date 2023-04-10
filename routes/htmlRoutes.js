@@ -1,17 +1,17 @@
-// TODO: Require necessary NPM packages and files
+// Require necessary NPM packages and files
 const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-// TODO: Set up GET route for `notes` page
+// Set up GET route for `notes` page
 router.get('/notes', (req, res) => {
-  // TODO: Return the `notes.html` file
+  res.sendFile(path.join(__dirname, '../public/notes.html'));
 });
 
-// TODO: Set up GET route for all other pages
+// Set up GET route for all other pages
 router.get('*', (req, res) => {
-  // TODO: Return the `index.html` file
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// TODO: Export the `router` instance to make it available to other files
+// Export the `router` instance to make it available to other files
 module.exports = router;

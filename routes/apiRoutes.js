@@ -20,12 +20,23 @@ router.post('/notes', (req, res) => {
 // Set up DELETE route for deleting a note
 router.delete('/notes/:id', (req, res) => {
   const noteId = req.params.id;
-  const noteIndex = db.findIndex(note => note.id === noteId);
-  if (noteIndex >= 0) {
-    db.splice(noteIndex, 1);
+
+  for (let i = 0; i < db.length; i++) {
+    if (db[i].id === noteId) {
+      db.splice(i, 1);
+      console.log('Note deleted from db:', db);
+      break;
+    }
   }
+
+  fs.writeFile('./db/db.json', JSON.stringify(db), (err) => {
+    if (err) throw err;
+    console.log('Note deleted successfully!');
+  });
+
   res.json(db);
 });
+
 
 // Export the `router` instance to make it available to other files
 module.exports = router;
