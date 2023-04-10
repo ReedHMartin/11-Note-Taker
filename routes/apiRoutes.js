@@ -1,26 +1,31 @@
-// TODO: Require necessary NPM packages and files
+// Require necessary NPM packages and files
 const express = require('express');
 const router = express.Router();
 const db = require('../db/db.json');
 const { v4: uuidv4 } = require('uuid');
 
-// TODO: Set up GET route for retrieving notes
+// Set up GET route for retrieving notes
 router.get('/notes', (req, res) => {
-  // TODO: Read the `db.json` file and return all saved notes as JSON
+  res.json(db);
 });
 
-// TODO: Set up POST route for saving a new note
+// Set up POST route for saving a new note
 router.post('/notes', (req, res) => {
-  // TODO: Receive a new note to save on the request body, add it to the `db.json` file,
-  // give each note a unique id using `uuid` npm package and return the new note to the client
+  const { title, text } = req.body;
+  const newNote = { id: uuidv4(), title, text };
+  db.push(newNote);
+  res.json(newNote);
 });
 
-// TODO: Set up DELETE route for deleting a note
+// Set up DELETE route for deleting a note
 router.delete('/notes/:id', (req, res) => {
-  // TODO: Receive a query parameter containing the id of a note to delete.
-  // Read all notes from the `db.json` file, remove the note with the given `id` property,
-  // and then rewrite the notes to the `db.json` file
+  const noteId = req.params.id;
+  const noteIndex = db.findIndex(note => note.id === noteId);
+  if (noteIndex >= 0) {
+    db.splice(noteIndex, 1);
+  }
+  res.json(db);
 });
 
-// TODO: Export the `router` instance to make it available to other files
+// Export the `router` instance to make it available to other files
 module.exports = router;
