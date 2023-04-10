@@ -1,2 +1,6 @@
 INSTRUCTION.md
 .DS_Store
+node_modules/
+db/db.json
+.env
+Thumbs.db
